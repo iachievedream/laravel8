@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Article;
-
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
     // public function __construct()
     // {
     // }
+
     /**
      * Display a listing of the resource.
      *
@@ -41,13 +42,19 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        dd(Auth::use());
         // $data = 
+        // Article::create([
+        //     'title'=>$data['title'],
+        //     'content'=>$data['content'],
+        //     'arthor'=>Auth::use()->name,
+        // ]);
         Article::create([
-            'title'=>$data['title'],
-            'content'=>$data['content'],
+            'title'=>$request->title,
+            'content'=>$request->content,
             'arthor'=>Auth::use()->name,
         ]);
+        return redirect()->route('board.show');
     }
 
     /**
