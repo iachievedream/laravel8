@@ -17,3 +17,18 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/api',[App\Http\Controllers\Api\v1\ArticleController::class, 'index']);
+Route::group(['middleware'=>'auth'],function(){
+    Route::get('/apicreate',[App\Http\Controllers\Api\v1\ArticleController::class, 'create']);
+    Route::post('/apistore',[App\Http\Controllers\Api\v1\ArticleController::class, 'store']);
+    Route::group(['middleware'=>'authority'],function(){
+        Route::get('/apishow/edit/{id}/',[App\Http\Controllers\Api\v1\ArticleController::class, 'edit']);
+        Route::post('/apishow/edit/update/{id}',[App\Http\Controllers\Api\v1\ArticleController::class, 'update']);
+        Route::post('/apishow/delete/{id}/',[App\Http\Controllers\Api\v1\ArticleController::class, 'destroy']);
+    });
+});
+
+// Route::get('/', function () {
+//     return 'ABC';
+// });
